@@ -1,65 +1,96 @@
-(function() {
-  'use strict';
-  /* eslint-disable */
-  const gulp = require('gulp');
-  const htmlhint = require('gulp-htmlhint');
-  const eslint = require('gulp-eslint');
-  const connect = require('gulp-connect');
-  const csslint = require('gulp-csslint');
+'use strict';
 
-  const paths = {
-    csssrc: ['./{*.css,**/*.css}',
-             '!./resources/{*.css,**/*.css}',
-             '!./dist/{*.css,**/*.css}',
-             '!./node_modules/{*.css,**/*.css}'],
-    htmlsrc: ['./{*.html,**/*.html',
-              '!./resources/{*.html,**/*.html',
-              '!./dist/{*.html,**/*.html',
-              '!./node_modules/{*.html,**/*.html}'],
-    jssrc: ['./*.js', './**/*.js',
-            '!./resources/{*.js,**/*.js}',
-            '!./dist/{*.js,**/*.js}',
-            '!./node_modules/{*.js,**/*.js}']
-  };
+const gulp     = require('gulp');
+const htmlhint = require("gulp-htmlhint");
+const eslint   = require('gulp-eslint');
+const sass     = require('gulp-sass');
+const connect  = require('gulp-connect');
+const sassLint = require('gulp-sass-lint');
+const gulpIf   = require('gulp-if');
 
-  gulp.task('css-lint', function() {
-    return gulp.src(paths.csssrc)
-      .pipe(csslint())
-      .pipe(csslint.formatter())
-      .pipe(connect.reload());
+const paths = {
+  src:       'src',
+  dst:       'dist',
+  assetssrc: 'src/assets/**/*',
+  assetsdst: 'dist/assets',
+  sasssrc:   'src/**/*.s+(a|c)ss',
+  htmlsrc:   'src/**/*.html',
+  jssrc:     'src/**/*.js'
+};
+
+function isFixed(file) {
+  // Has ESLint fixed the file contents?
+  return file.eslint != null && file.eslint.fixed;
+}
+
+gulp.task('sass', () => {
+  return gulp.src(paths.sasssrc)
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest(paths.dst))
+    .pipe(connect.reload());
+});
+
+gulp.task('sass-lint', () => {
+  return gulp.src(paths.sasssrc)
+    .pipe(sassLint())
+    .pipe(sassLint.format());
+});
+
+gulp.task('assets-copy', () => {
+  return gulp.src(paths.assetssrc)
+    .pipe(gulp.dest(paths.assetsdst))
+    .pipe(connect.reload());
+});
+
+gulp.task('html-hint', () => {
+  return gulp.src(paths.htmlsrc)
+    .pipe(htmlhint())
+    .pipe(htmlhint.reporter());
+});
+
+gulp.task('html-copy', () => {
+  return gulp.src(paths.htmlsrc)
+    .pipe(gulp.dest(paths.dst))
+    .pipe(connect.reload());
+});
+
+gulp.task('js-eslint', () => {
+  return gulp.src(paths.jssrc, { base: './' })
+    .pipe(eslint({fix: true}))
+    .pipe(eslint.format())
+    .pipe(gulpIf(isFixed, gulp.dest('./')));
+});
+
+gulp.task('js-copy', () => {
+  return gulp.src(paths.jssrc)
+    .pipe(gulp.dest(paths.dst))
+    .pipe(connect.reload());
+});
+
+gulp.task('html-build', ['html-hint', 'html-copy']);
+gulp.task('js-build', ['js-eslint', 'js-copy']);
+
+gulp.task('watch', () => {
+  gulp.watch(paths.htmlsrc, ['html-build']);
+  gulp.watch(paths.jssrc, ['js-build']);
+  gulp.watch(paths.sasssrc, ['sass-lint', 'sass']);
+  gulp.watch(paths.assetssrc, ['assets-copy']);
+});
+
+gulp.task('connect', () => {
+  connect.server({
+    root: 'dist',
+    port: 8080,
+    livereload: true
   });
+});
 
-  gulp.task('html-hint', _ => {
-    return gulp.src(paths.htmlsrc)
-      .pipe(htmlhint())
-      .pipe(htmlhint.reporter());
-  });
-
-  gulp.task('js-eslint', _ => {
-    return gulp.src(paths.jssrc)
-      .pipe(eslint())
-      .pipe(eslint.format());
-  });
-
-  gulp.task('watch', _ => {
-    gulp.watch(paths.htmlsrc, ['html-hint']);
-    gulp.watch(paths.jssrc, ['js-eslint']);
-    gulp.watch(paths.csssrc, ['css-lint']);
-  });
-
-  gulp.task('connect', function() {
-    connect.server({
-      root: './',
-      port: 8888,
-      livereload: true
-    });
-  });
-
-  gulp.task('default', [
-    'css-lint',
-    'html-hint',
-    'js-eslint',
-    'connect',
-    'watch'
-  ]);
-})();
+gulp.task('default', [
+  'assets-copy',
+  'html-build',
+  'js-build',
+  'sass-lint',
+  'sass',
+  'connect',
+  'watch'
+]);
