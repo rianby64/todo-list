@@ -144,3 +144,10 @@ promise_test(function() { return new Promise((resolve, reject) => {
     resolve();
   }));
 }); }, "Add 3 new tasks to the list and change their status");
+
+promise_test(function() { return new Promise((resolve, reject) => {
+  document.querySelector('x-fragment').loaded.then(this.step_func((fragment) => {
+
+    resolve();
+  }));
+}); }, "Filter by 'done'");
