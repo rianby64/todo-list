@@ -4,11 +4,9 @@
   document.querySelector('[hash="tasks"]').addEventListener('show', () => {
   });
 
-  document.querySelector('[hash="task"]').addEventListener('show', () => {
+  document.querySelector('[hash="task"] [hash="new"]').addEventListener('show', () => {
     var input = document.querySelector('input[name="description"]');
-    if (input) {
-      input.value = '';
-    }
+    input.value = '';
   });
 
   document.querySelector('[action="add"]').addEventListener('click', () => {
@@ -35,7 +33,6 @@
 
   document.querySelector('[hash="task"] [hash="([0-9]+)"]')
     .addEventListener('show', e => {
-      e.stopPropagation();
       var id = document.querySelector('input[name="id"]');
       var input = document.querySelector('input[name="description"]');
       var task = document.querySelector('#task-' + e.detail.param1);
