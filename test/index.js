@@ -156,10 +156,10 @@ promise_test(function() { return new Promise((resolve, reject) => {
         var router = e.detail.router;
         router.removeEventListener('show', handlerDone);
 
-        assert_false(router.querySelector('#task-1').hidden);
-        assert_true(router.querySelector('#task-2').hidden);
-        assert_false(router.querySelector('#task-3').hidden);
-        assert_true(router.querySelector('#task-4').hidden);
+        assert_true(router.querySelector('#task-1').hidden);
+        assert_false(router.querySelector('#task-2').hidden);
+        assert_true(router.querySelector('#task-3').hidden);
+        assert_false(router.querySelector('#task-4').hidden);
 
         resolve();
       });
