@@ -91,7 +91,19 @@ promise_test(function() { return new Promise((resolve, reject) => {
 promise_test(function() { return new Promise((resolve, reject) => {
   document.querySelector('x-fragment').loaded.then(this.step_func((fragment) => {
 
-    var task;
+    var setDone = this.step_func((e) => {
+      e.target.removeEventListener('click', setDone);
+      var task = e.target.parentElement;
+      assert_equals(task.getAttribute('status'), 'done');
+    });
+
+    var setActive = this.step_func((e) => {
+      e.target.removeEventListener('click', setDone);
+      var task = e.target.parentElement;
+      assert_equals(task.getAttribute('status'), 'active');
+    });
+
+    var task, setDoneBtn;
     var list = document.querySelector('ul.tasks');
     var counterTask = list.children.length;
     var addbtn = document.querySelector('[action="add"]');
@@ -100,18 +112,35 @@ promise_test(function() { return new Promise((resolve, reject) => {
     counterTask++;
     addbtn.dispatchEvent(new MouseEvent('click'));
     task = list.querySelector(`#task-${counterTask}`);
+    assert_true(task.querySelector('[action="changestatus"]') instanceof HTMLElement);
+
+    setDoneBtn = task.querySelector('[action="changestatus"][status="done"]');
+    setDoneBtn.addEventListener('click', setDone);
+    setDoneBtn.dispatchEvent(new MouseEvent('click'));
 
     input.value = "Task 3";
     counterTask++;
     addbtn.dispatchEvent(new MouseEvent('click'));
     task = list.querySelector(`#task-${counterTask}`);
 
+    setDoneBtn = task.querySelector('[action="changestatus"][status="done"]');
+    setDoneBtn.addEventListener('click', setDone);
+    setDoneBtn.dispatchEvent(new MouseEvent('click'));
+
+    setDoneBtn = task.querySelector('[action="changestatus"][status="active"]');
+    setDoneBtn.addEventListener('click', setActive);
+    setDoneBtn.dispatchEvent(new MouseEvent('click'));
+
     input.value = "Task 4";
     counterTask++;
     addbtn.dispatchEvent(new MouseEvent('click'));
     task = list.querySelector(`#task-${counterTask}`);
 
+    setDoneBtn = task.querySelector('[action="changestatus"][status="done"]');
+    setDoneBtn.addEventListener('click', setDone);
+    setDoneBtn.dispatchEvent(new MouseEvent('click'));
+
     assert_equals(list.children.length, counterTask);
     resolve();
   }));
-}); }, "Add 3 new tasks to the list");
+}); }, "Add 3 new tasks to the list and change their status");

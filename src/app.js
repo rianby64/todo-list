@@ -31,6 +31,14 @@
       li.setAttribute('status', 'active');
       edit.href = `#task/${id.textContent}`;
 
+      li.querySelector('[status="done"]').addEventListener('click', e => {
+        li.setAttribute('status', 'done');
+      });
+
+      li.querySelector('[status="active"]').addEventListener('click', e => {
+        li.setAttribute('status', 'active');
+      });
+
       input.value = '';
     });
 
