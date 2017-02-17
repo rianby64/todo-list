@@ -87,3 +87,31 @@ promise_test(function() { return new Promise((resolve, reject) => {
     edit.dispatchEvent(new MouseEvent('click'));
   }));
 }); }, "Edit last added task");
+
+promise_test(function() { return new Promise((resolve, reject) => {
+  document.querySelector('x-fragment').loaded.then(this.step_func((fragment) => {
+
+    var task;
+    var list = document.querySelector('ul.tasks');
+    var counterTask = list.children.length;
+    var addbtn = document.querySelector('[action="add"]');
+    var input = document.querySelector('input[name="description"]');
+    input.value = "Task 2";
+    counterTask++;
+    addbtn.dispatchEvent(new MouseEvent('click'));
+    task = list.querySelector(`#task-${counterTask}`);
+
+    input.value = "Task 3";
+    counterTask++;
+    addbtn.dispatchEvent(new MouseEvent('click'));
+    task = list.querySelector(`#task-${counterTask}`);
+
+    input.value = "Task 4";
+    counterTask++;
+    addbtn.dispatchEvent(new MouseEvent('click'));
+    task = list.querySelector(`#task-${counterTask}`);
+
+    assert_equals(list.children.length, counterTask);
+    resolve();
+  }));
+}); }, "Add 3 new tasks to the list");
