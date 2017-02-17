@@ -8,13 +8,13 @@
   </head>
   <body>
     <a href="#">List</a>
-    <a href="#add/">Add</a>
+    <a href="#task/new">Add</a>
 
     <div class="mdl-router3" hash="">
       <ul class="tasks"></ul>
     </div>
 
-    <div class="mdl-router3" hash="add">
+    <div class="mdl-router3" hash="task">
       <template>
         <li>
           <span name="id" hidden></span>
@@ -24,7 +24,7 @@
       </template>
       <input name="id" hidden>
       <input name="description">
-      <div class="mdl-router3" hash="">
+      <div class="mdl-router3" hash="new">
         <a href="#" action="add">Add</a>
       </div>
 

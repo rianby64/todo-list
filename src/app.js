@@ -4,7 +4,7 @@
   document.querySelector('[hash=""]').addEventListener('show', () => {
   });
 
-  document.querySelector('[hash="add"]').addEventListener('show', () => {
+  document.querySelector('[hash="task"]').addEventListener('show', () => {
     var input = document.querySelector('input[name="description"]');
     if (input) {
       input.value = '';
@@ -12,7 +12,7 @@
   });
 
   document.querySelector('[action="add"]').addEventListener('click', () => {
-    var frame = document.querySelector('[hash="add"]');
+    var frame = document.querySelector('[hash="task"]');
     var list = document.querySelector('ul.tasks');
     var input = document.querySelector('input[name="description"]');
 
@@ -28,12 +28,12 @@
     description.textContent = input.value;
     id.textContent = list.children.length;
     li.id = 'task-' + id.textContent;
-    edit.href = `#add/${id.textContent}`;
+    edit.href = `#task/${id.textContent}`;
 
     input.value = '';
   });
 
-  document.querySelector('[hash="add"] [hash="([0-9]+)"]')
+  document.querySelector('[hash="task"] [hash="([0-9]+)"]')
     .addEventListener('show', e => {
       e.stopPropagation();
       var id = document.querySelector('input[name="id"]');
@@ -45,7 +45,7 @@
       input.value = description.textContent;
     });
 
-  document.querySelector('[hash="add"] [hash="([0-9]+)"] [action="edit"]')
+  document.querySelector('[hash="task"] [hash="([0-9]+)"] [action="edit"]')
     .addEventListener('click', () => {
       var id = document.querySelector('input[name="id"]');
       var input = document.querySelector('input[name="description"]');

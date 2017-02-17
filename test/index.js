@@ -10,14 +10,14 @@ promise_test(function() { return new Promise(this.step_func((resolve, reject) =>
       exit();
     });
     var handler2 = this.step_func(e => {
-      fragment.querySelector('[hash="add"]').removeEventListener('show', handler2);
+      fragment.querySelector('[hash="task"]').removeEventListener('show', handler2);
       counter++;
       assert_true(fragment.querySelector('input[name="description"]') instanceof HTMLElement);
       assert_true(fragment.querySelector('[action="add"]') instanceof HTMLElement);
       exit();
     });
     fragment.querySelector('[hash=""]').addEventListener('show', handler1);
-    fragment.querySelector('[hash="add"]').addEventListener('show', handler2);
+    fragment.querySelector('[hash="task"]').addEventListener('show', handler2);
 
     function exit() {
       if (counter === 2) {
@@ -25,7 +25,7 @@ promise_test(function() { return new Promise(this.step_func((resolve, reject) =>
       }
     }
 
-    window.location.hash = "add";
+    window.location.hash = "task";
     window.location.hash = "";
   });
 })); }, "Routers are present");
@@ -80,7 +80,7 @@ promise_test(function() { return new Promise((resolve, reject) => {
       edit.dispatchEvent(new MouseEvent('click'));
 
     });
-    var editRoute = document.querySelector('[hash="add"] [hash="([0-9]+)"]');
+    var editRoute = document.querySelector('[hash="task"] [hash="([0-9]+)"]');
     editRoute.addEventListener('show', handler);
     edit.dispatchEvent(new MouseEvent('click'));
   }));
