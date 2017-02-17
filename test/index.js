@@ -24,9 +24,12 @@ promise_test(function() { return new Promise(this.step_func((resolve, reject) =>
         resolve();
       }
     }
-
-    window.location.hash = "task";
-    window.location.hash = "tasks";
+    fragment.querySelector('[hash="task"]').setAttribute('src', '/dist/' + fragment.querySelector('[hash="task"]').getAttribute('src'));
+    componentHandler.upgradeElement(fragment.querySelector('[hash="task"]'));
+    fragment.querySelector('[hash="task"]').MaterialFragment.loaded.then(() => {
+      window.location.hash = "task";
+      window.location.hash = "tasks";
+    });
   });
 })); }, "Routers are present");
 
