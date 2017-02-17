@@ -8,9 +8,6 @@
 
   document.querySelector('[hash="add"]').addEventListener('show', e => {
     var frame = e.detail.router;
-    var input = frame.querySelector('input');
-    if (input) {
-    }
     return frame;
   });
 
