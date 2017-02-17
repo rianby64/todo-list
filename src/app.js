@@ -14,7 +14,9 @@ document.querySelector('[action="add"]').addEventListener('click', e => {
   var input = document.querySelector('input[name="description"]');
 
   var li = document.importNode(frame.querySelector('template').content, true);
-  var description = li.querySelector('span');
+  var id = li.querySelector('[name="id"]');
+  var description = li.querySelector('[name="description"]');
   description.textContent = input.value;
   list.appendChild(li);
+  id.textContent = list.children.length;
 });

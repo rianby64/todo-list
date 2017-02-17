@@ -36,6 +36,7 @@ promise_test(function() { return new Promise((resolve, reject) => {
       var task = list.lastElementChild;
       assert_true(task instanceof HTMLLIElement);
       assert_equals(task.querySelector('[name="description"]').textContent, input.value);
+      assert_equals(task.querySelector('[name="id"]').textContent, list.querySelectorAll('li').length.toString());
       resolve();
     }));
     btnadd.dispatchEvent(new Event('click'));
