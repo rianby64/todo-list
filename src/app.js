@@ -9,12 +9,12 @@ document.querySelector('[hash="add"]').addEventListener('show', e => {
 });
 
 document.querySelector('[action="add"]').addEventListener('click', e => {
+  var frame = document.querySelector('[hash="add"]');
   var list = document.querySelector('ul.tasks');
   var input = document.querySelector('input[name="description"]');
-  var li = document.createElement('li');
-  var description = document.createElement('span');
-  description.setAttribute('name', 'description');
+
+  var li = document.importNode(frame.querySelector('template').content, true);
+  var description = li.querySelector('span');
   description.textContent = input.value;
-  li.appendChild(description);
   list.appendChild(li);
 });
