@@ -19,26 +19,7 @@
       <a filter="done" href="#tasks/done">Done</a>
     </div>
 
-    <div class="mdl-router3" hash="task">
-      <template>
-        <li>
-          <span name="id" hidden></span>
-          <span name="description"></span>
-          <a href="" action="edit">Edit</a>
-          <button action="changestatus" status="done">Done</button>
-          <button action="changestatus" status="active">Active</button>
-        </li>
-      </template>
-      <input name="id" hidden>
-      <input name="description">
-      <div class="mdl-router3" hash="new">
-        <a href="#tasks/all" action="add">Add</a>
-      </div>
-
-      <div class="mdl-router3" hash="([0-9]+)">
-        <a href="#tasks/all" action="edit">Edit</a>
-      </div>
-    </div>
+    <div class="mdl-router3 mdl-fragment" hash="task" src="task.html"></div>
     <script src="app.js"></script>
   </body>
 </html>
