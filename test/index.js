@@ -41,6 +41,7 @@ promise_test(function() { return new Promise((resolve, reject) => {
       var list = document.querySelector('ul.tasks');
       var task = list.lastElementChild;
       assert_true(task instanceof HTMLLIElement);
+      assert_equals(task.getAttribute('status'), 'active');
       assert_equals(task.querySelector('[name="description"]').textContent, text);
       assert_equals(task.querySelector('[name="id"]').textContent, list.querySelectorAll('li').length.toString());
       assert_equals(input.value, "");
@@ -73,6 +74,7 @@ promise_test(function() { return new Promise((resolve, reject) => {
       var handler1 = this.step_func(e => {
         edit.removeEventListener('click', handler1);
         var description = task.querySelector('[name="description"]');
+        assert_equals(task.getAttribute('status'), 'active');
         assert_equals(description.textContent, text);
         resolve();
       });

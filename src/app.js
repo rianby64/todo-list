@@ -28,6 +28,7 @@
       description.textContent = input.value;
       id.textContent = list.children.length;
       li.id = 'task-' + id.textContent;
+      li.setAttribute('status', 'active');
       edit.href = `#task/${id.textContent}`;
 
       input.value = '';
