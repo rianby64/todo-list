@@ -61,6 +61,7 @@ promise_test(function() { return new Promise((resolve, reject) => {
     var handler = this.step_func(e => {
       editRoute.removeEventListener('show', handler);
       assert_equals(e.detail.param1, task.querySelector('[name="id"]').textContent);
+      assert_equals(document.querySelector('input[name="description"]').value, "Task 1");
       resolve();
     });
     editRoute.addEventListener('show', handler);

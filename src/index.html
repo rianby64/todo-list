@@ -8,7 +8,7 @@
   </head>
   <body>
     <a href="#">List</a>
-    <a href="#add">Add</a>
+    <a href="#add/">Add</a>
 
     <div class="mdl-router3" hash="">
       <ul class="tasks"></ul>
@@ -23,9 +23,12 @@
         </li>
       </template>
       <input name="description">
-      <button action="add">Add</button>
+      <div class="mdl-router3" hash="">
+        <button action="add">Add</button>
+      </div>
 
       <div class="mdl-router3" hash="([0-9]+)">
+        <button action="edit">Edit</button>
       </div>
     </div>
     <script src="app.js"></script>
