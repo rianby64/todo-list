@@ -28,11 +28,15 @@ promise_test(function() { return new Promise(this.step_func((resolve, reject) =>
 
 promise_test(function() { return new Promise((resolve, reject) => {
   document.querySelector('x-fragment').loaded.then(this.step_func((fragment) => {
-    fragment.querySelector('[hash="add"]').addEventListener('show', this.step_func(e => {
-
+    var input = document.querySelector('input[name="description"]');
+    input.value = "Task 1";
+    var btnadd = document.querySelector('[action="add"]');
+    btnadd.addEventListener('click', this.step_func(e => {
+      var list = document.querySelector('ul.tasks');
+      assert_true(list.lastElementChild instanceof HTMLLIElement);
+      assert_equals(list.lastElementChild.textContent, input.value);
       resolve();
     }));
-
-    window.location.hash = "add";
+    btnadd.dispatchEvent(new Event('click'));
   }));
 }); }, "Add a new task");
