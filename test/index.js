@@ -4,7 +4,7 @@ promise_test(function() { return new Promise(this.step_func((resolve, reject) =>
   document.querySelector('x-fragment').loaded.then((fragment) => {
     var counter = 0;
     var handler1 = this.step_func(e => {
-      fragment.querySelector('[hash=""]').removeEventListener('show', handler1);
+      fragment.querySelector('[hash="tasks"]').removeEventListener('show', handler1);
       assert_true(fragment.querySelector('ul.tasks') instanceof HTMLElement);
       counter++;
       exit();
@@ -16,7 +16,7 @@ promise_test(function() { return new Promise(this.step_func((resolve, reject) =>
       assert_true(fragment.querySelector('[action="add"]') instanceof HTMLElement);
       exit();
     });
-    fragment.querySelector('[hash=""]').addEventListener('show', handler1);
+    fragment.querySelector('[hash="tasks"]').addEventListener('show', handler1);
     fragment.querySelector('[hash="task"]').addEventListener('show', handler2);
 
     function exit() {
@@ -26,7 +26,7 @@ promise_test(function() { return new Promise(this.step_func((resolve, reject) =>
     }
 
     window.location.hash = "task";
-    window.location.hash = "";
+    window.location.hash = "tasks";
   });
 })); }, "Routers are present");
 

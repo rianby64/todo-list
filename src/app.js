@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  document.querySelector('[hash=""]').addEventListener('show', () => {
+  document.querySelector('[hash="tasks"]').addEventListener('show', () => {
   });
 
   document.querySelector('[hash="task"]').addEventListener('show', () => {

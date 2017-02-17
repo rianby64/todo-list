@@ -7,10 +7,10 @@
     <script src="bower_components/router3/router3.js"></script>
   </head>
   <body>
-    <a href="#">List</a>
+    <a href="#tasks">List</a>
     <a href="#task/new">Add</a>
 
-    <div class="mdl-router3" hash="">
+    <div class="mdl-router3" hash="tasks">
       <ul class="tasks"></ul>
     </div>
 
@@ -25,11 +25,11 @@
       <input name="id" hidden>
       <input name="description">
       <div class="mdl-router3" hash="new">
-        <a href="#" action="add">Add</a>
+        <a href="#tasks" action="add">Add</a>
       </div>
 
       <div class="mdl-router3" hash="([0-9]+)">
-        <a href="#" action="edit">Edit</a>
+        <a href="#tasks" action="edit">Edit</a>
       </div>
     </div>
     <script src="app.js"></script>
