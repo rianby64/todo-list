@@ -1,14 +1,14 @@
 (() => {
   'use strict';
 
-  document.querySelector('[hash=""]').addEventListener('show', e => {
-    var frame = e.detail.router;
-    return frame;
+  document.querySelector('[hash=""]').addEventListener('show', () => {
   });
 
-  document.querySelector('[hash="add"]').addEventListener('show', e => {
-    var frame = e.detail.router;
-    return frame;
+  document.querySelector('[hash="add"]').addEventListener('show', () => {
+    var input = document.querySelector('input[name="description"]');
+    if (input) {
+      input.value = '';
+    }
   });
 
   document.querySelector('[action="add"]').addEventListener('click', () => {
@@ -16,15 +16,42 @@
     var list = document.querySelector('ul.tasks');
     var input = document.querySelector('input[name="description"]');
 
-    var li = document.importNode(frame.querySelector('template').content, true);
-    var id = li.querySelector('[name="id"]');
-    var edit = li.querySelector('[action="edit"]');
-    var description = li.querySelector('[name="description"]');
-    description.textContent = input.value;
-    list.appendChild(li);
-    id.textContent = list.children.length;
+    var tmpl = document.importNode(frame.querySelector('template').content, true);
 
+    var li = tmpl.querySelector('li');
+    var id = tmpl.querySelector('[name="id"]');
+    var edit = tmpl.querySelector('[action="edit"]');
+    var description = tmpl.querySelector('[name="description"]');
+
+    list.appendChild(tmpl);
+
+    description.textContent = input.value;
+    id.textContent = list.children.length;
+    li.id = 'task-' + id.textContent;
     edit.href = `#add/${id.textContent}`;
+
     input.value = '';
   });
+
+  document.querySelector('[hash="add"] [hash="([0-9]+)"]')
+    .addEventListener('show', e => {
+      e.stopPropagation();
+      var id = document.querySelector('input[name="id"]');
+      var input = document.querySelector('input[name="description"]');
+      var task = document.querySelector('#task-' + e.detail.param1);
+      var description = task.querySelector('[name="description"]');
+
+      id.value = e.detail.param1;
+      input.value = description.textContent;
+    });
+
+  document.querySelector('[hash="add"] [hash="([0-9]+)"] [action="edit"]')
+    .addEventListener('click', () => {
+      var id = document.querySelector('input[name="id"]');
+      var input = document.querySelector('input[name="description"]');
+      var task = document.querySelector('#task-' + id.value);
+      var description = task.querySelector('[name="description"]');
+
+      description.textContent = input.value;
+    });
 })();
