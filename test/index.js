@@ -33,10 +33,20 @@ promise_test(function() { return new Promise((resolve, reject) => {
     var btnadd = document.querySelector('[action="add"]');
     btnadd.addEventListener('click', this.step_func(e => {
       var list = document.querySelector('ul.tasks');
-      assert_true(list.lastElementChild instanceof HTMLLIElement);
-      assert_equals(list.lastElementChild.textContent, input.value);
+      var task = list.lastElementChild;
+      assert_true(task instanceof HTMLLIElement);
+      assert_equals(task.querySelector('[name="description"]').textContent, input.value);
       resolve();
     }));
     btnadd.dispatchEvent(new Event('click'));
   }));
 }); }, "Add a new task");
+
+promise_test(function() { return new Promise((resolve, reject) => {
+  document.querySelector('x-fragment').loaded.then(this.step_func((fragment) => {
+    var list = document.querySelector('ul.tasks');
+    var task = list.lastElementChild;
+    assert_true(task.querySelector('[action="edit"]') instanceof HTMLElement);
+    resolve();
+  }));
+}); }, "Edit last added task");
