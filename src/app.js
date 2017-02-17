@@ -7,6 +7,7 @@
     var tasks = [].slice.call(frame.querySelectorAll('li'));
     tasks.forEach(task => {
       task.hidden = false;
+      if (filter === 'all') { return; }
       if (task.getAttribute('status') !== filter) {
         task.hidden = true;
       }

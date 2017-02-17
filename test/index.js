@@ -192,3 +192,27 @@ promise_test(function() { return new Promise((resolve, reject) => {
     });
   }));
 }); }, "Filter by 'active'");
+
+promise_test(function() { return new Promise((resolve, reject) => {
+  document.querySelector('x-fragment').loaded.then(this.step_func((fragment) => {
+
+    var byAll = document.querySelector('a[filter="all"]');
+    var listRouter = document.querySelector('[hash="tasks"] [hash="([a-z]+)"]');
+
+    this.step_timeout(() => {
+      var handlerActive = this.step_func((e) => {
+        var router = e.detail.router;
+        router.removeEventListener('show', handlerActive);
+
+        assert_false(router.querySelector('#task-1').hidden);
+        assert_false(router.querySelector('#task-2').hidden);
+        assert_false(router.querySelector('#task-3').hidden);
+        assert_false(router.querySelector('#task-4').hidden);
+
+        resolve();
+      });
+      listRouter.addEventListener('show', handlerActive);
+      byAll.dispatchEvent(new MouseEvent('click'));
+    });
+  }));
+}); }, "Filter by 'all'");
